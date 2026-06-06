@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
     Image,
+    ImageBackground,
     Modal,
     Pressable,
     ScrollView,
@@ -402,21 +403,31 @@ export default function HomeScreen() {
           <View style={styles.modalCard}>
             {selectedItem && (
               <ScrollView showsVerticalScrollIndicator={false}>
-                <View
-                  style={[
-                    styles.modalImageContainer,
-                    selectedItem.type === "player" &&
-                      styles.playerImageContainer,
-                  ]}
-                >
-                  <Image
+                {selectedItem.type === "player" ? (
+                  <ImageBackground
                     source={selectedItem.image}
-                    style={styles.modalImage}
-                    resizeMode={
-                      selectedItem.type === "player" ? "contain" : "cover"
-                    }
-                  />
-                </View>
+                    style={styles.playerImageContainer}
+                    imageStyle={styles.playerImageBackground}
+                    resizeMode="cover"
+                    blurRadius={14}
+                  >
+                    <View style={styles.playerImageOverlay}>
+                      <Image
+                        source={selectedItem.image}
+                        style={styles.playerImage}
+                        resizeMode="contain"
+                      />
+                    </View>
+                  </ImageBackground>
+                ) : (
+                  <View style={styles.modalImageContainer}>
+                    <Image
+                      source={selectedItem.image}
+                      style={styles.modalImage}
+                      resizeMode="cover"
+                    />
+                  </View>
+                )}
 
                 <View style={styles.modalContent}>
                   {selectedItem.type === "match" ? (
@@ -925,14 +936,31 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 300,
     backgroundColor: "#EAF1FF",
+    overflow: "hidden",
+  },
+  modalImage: {
+    width: "100%",
+    height: "100%",
+  },
+  playerImageContainer: {
+    width: "100%",
+    height: 410,
+    backgroundColor: COLORS.dark,
+    overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
   },
-  playerImageContainer: {
-    height: 340,
-    backgroundColor: "#EEF4FF",
+  playerImageBackground: {
+    opacity: 0.55,
   },
-  modalImage: {
+  playerImageOverlay: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0,0.18)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  playerImage: {
     width: "100%",
     height: "100%",
   },
