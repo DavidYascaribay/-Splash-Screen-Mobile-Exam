@@ -228,6 +228,7 @@ const players: Player[] = [
 
 export default function HomeScreen() {
   const [selectedItem, setSelectedItem] = useState<DetailItem | null>(null);
+  const [showSupportModal, setShowSupportModal] = useState<boolean>(false);
 
   const closeModal = () => {
     setSelectedItem(null);
@@ -391,6 +392,15 @@ export default function HomeScreen() {
             </Pressable>
           ))}
         </View>
+
+        <TouchableOpacity
+          style={styles.supportButton}
+          onPress={() => setShowSupportModal(true)}
+        >
+          <Text style={styles.supportButtonText}>
+            Enviar mensaje para La Tri
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
 
       <Modal
@@ -528,6 +538,38 @@ export default function HomeScreen() {
                 </View>
               </ScrollView>
             )}
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={showSupportModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowSupportModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.supportModalCard}>
+            <Text style={styles.supportModalLabel}>Mensaje de apoyo</Text>
+            <Text style={styles.supportModalTitle}>¡Vamos Ecuador!</Text>
+
+            <Text style={styles.supportModalText}>
+              La Tri representa la pasión, la fuerza y la unión de todo un país.
+              En el Mundial 2026, Ecuador tiene la oportunidad de demostrar su
+              talento, su garra y el crecimiento de una generación que ilusiona.
+            </Text>
+
+            <Text style={styles.supportModalPhrase}>
+              “Con corazón, disciplina y orgullo, Ecuador puede competir contra
+              cualquiera.”
+            </Text>
+
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setShowSupportModal(false)}
+            >
+              <Text style={styles.closeButtonText}>Cerrar</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -918,6 +960,23 @@ const styles = StyleSheet.create({
     marginTop: 3,
     fontWeight: "700",
   },
+  supportButton: {
+    backgroundColor: COLORS.yellow,
+    borderRadius: 24,
+    paddingVertical: 18,
+    alignItems: "center",
+    borderWidth: 4,
+    borderColor: COLORS.dark,
+    marginBottom: 10,
+    ...baseCardShadow,
+  },
+  supportButtonText: {
+    fontFamily: "BebasNeue_400Regular",
+    color: COLORS.dark,
+    fontSize: 28,
+    lineHeight: 30,
+    textTransform: "uppercase",
+  },
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.58)",
@@ -1043,5 +1102,47 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "900",
     textTransform: "uppercase",
+  },
+  supportModalCard: {
+    backgroundColor: COLORS.yellow,
+    borderRadius: 34,
+    padding: 24,
+    borderWidth: 4,
+    borderColor: COLORS.dark,
+    ...baseCardShadow,
+  },
+  supportModalLabel: {
+    color: COLORS.dark,
+    fontSize: 13,
+    fontWeight: "900",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: 4,
+  },
+  supportModalTitle: {
+    fontFamily: "BebasNeue_400Regular",
+    color: COLORS.dark,
+    fontSize: 54,
+    lineHeight: 56,
+    marginBottom: 12,
+  },
+  supportModalText: {
+    color: COLORS.dark,
+    fontSize: 15,
+    lineHeight: 23,
+    fontWeight: "700",
+    marginBottom: 14,
+  },
+  supportModalPhrase: {
+    backgroundColor: COLORS.white,
+    color: COLORS.dark,
+    fontSize: 15,
+    lineHeight: 22,
+    fontWeight: "900",
+    padding: 14,
+    borderRadius: 18,
+    borderWidth: 3,
+    borderColor: COLORS.dark,
+    marginBottom: 18,
   },
 });
